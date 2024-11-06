@@ -1,8 +1,18 @@
 import User from "../../models/User.js";
+import "../../models/Auto.js";
 
 let allUser = async (req,res,next) => {
     try {
-        let all = await  User.find()
+        
+        let {name,role} = req.query
+        console.log(name);
+        console.log(role);
+        let query = {}
+        if (name) {
+            query.name = {$regex:'^'+name, $options: 'i'}
+        }
+        let all = await  User.find(query).populate('auto','').exec();
+
         return res.status(200).json({
             response: all
         })
@@ -38,6 +48,5 @@ let userById =  async (req,res) => {
         next(error)
     }        
 }
-
 
 export {allUser,userByRole,userById} 
