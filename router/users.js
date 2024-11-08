@@ -7,14 +7,15 @@ import validator from "../middlewares/validator.js"
 import schemaUsersCreated from "../schemas/users/create.js";
 import accountExists from "../middlewares/accountExists.js";
 import createHash from "../middlewares/createHash.js";
+import passport from "../middlewares/passport.js";
 
 const routerUsers = Router()
 
-routerUsers.get('/all', allUser)
-routerUsers.get('/role/:x',userByRole)
-routerUsers.get('/id/:id',userById)
-routerUsers.post('/register',validator(schemaUsersCreated),accountExists,createHash,register)
-routerUsers.put('/update',update)
-routerUsers.delete('/deleteOne',deleteOne)
+routerUsers.get('/all',passport.authenticate('jwt',{session:false}), allUser)
+routerUsers.get('/role/:x',passport.authenticate('jwt',{session:false}),userByRole)
+routerUsers.get('/id/:id',passport.authenticate('jwt',{session:false}),userById)
+routerUsers.post('/register',passport.authenticate('jwt',{session:false}),validator(schemaUsersCreated),accountExists,createHash,register)
+routerUsers.put('/update',passport.authenticate('jwt',{session:false}),update)
+routerUsers.delete('/deleteOne',passport.authenticate('jwt',{session:false}),deleteOne)
 
 export default routerUsers
