@@ -6,7 +6,7 @@ const update = async (req, res, next) => {
 
         validarAuto(user.auto)
 
-        let upd = await User.updateOne(
+        let upd = await User.findOneAndUpdate(
             { name: user.name }, //condiciones de busqueda
             { auto: user.auto } // modificaciones
         )
