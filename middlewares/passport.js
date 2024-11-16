@@ -11,7 +11,7 @@ export default passport.use(
         async (jwt_payload, done) =>{
 
             try {
-                let user = await User.findOne({email:jwt_payload.email})
+                let user = await User.findOne({email:jwt_payload.email , online:true })
 
                 if (user) {
                     return done(null,user)
